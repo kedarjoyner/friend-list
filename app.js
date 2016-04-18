@@ -1,6 +1,9 @@
 var express = require("express");
 var app = express();
 
+// include public directory
+app.use(express.static("public"));
+
 // include ejs files
 app.set("view engine", "ejs");
 
