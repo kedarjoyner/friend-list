@@ -6,17 +6,17 @@ var data = [
     {
         name: "Cloud's Rest",
         image: "https://farm4.staticflickr.com/3795/10131087094_c1c0a1c859.jpg",
-        description: "blah blah blah"
+        description: "Cronut fixie hashtag YOLO, taxidermy skateboard kogi pabst irony. Flexitarian 90's heirloom narwhal. Mixtape cliche YOLO fanny pack, tofu crucifix polaroid sriracha messenger bag kinfolk 90's jean shorts. Banjo mlkshk letterpress marfa. Craft beer salvia health goth, bicycle rights post-ironic poutine four loko umami venmo lomo iPhone narwhal blog. Try-hard waistcoat semiotics artisan, helvetica mustache stumptown fingerstache health goth wolf art party. Humblebrag asymmetrical skateboard celiac."
     },
     {
         name: "Desert Mesa",
         image: "https://farm4.staticflickr.com/3859/15123592300_6eecab209b.jpg",
-        description: "blah blah blah"
+        description: "Cronut fixie hashtag YOLO, taxidermy skateboard kogi pabst irony. Flexitarian 90's heirloom narwhal. Mixtape cliche YOLO fanny pack, tofu crucifix polaroid sriracha messenger bag kinfolk 90's jean shorts. Banjo mlkshk letterpress marfa. Craft beer salvia health goth, bicycle rights post-ironic poutine four loko umami venmo lomo iPhone narwhal blog. Try-hard waistcoat semiotics artisan, helvetica mustache stumptown fingerstache health goth wolf art party. Humblebrag asymmetrical skateboard celiac."
     },
     {
         name: "Canyon Floor",
         image: "https://farm1.staticflickr.com/189/493046463_841a18169e.jpg",
-        description: "blah blah blah"
+        description: "Cronut fixie hashtag YOLO, taxidermy skateboard kogi pabst irony. Flexitarian 90's heirloom narwhal. Mixtape cliche YOLO fanny pack, tofu crucifix polaroid sriracha messenger bag kinfolk 90's jean shorts. Banjo mlkshk letterpress marfa. Craft beer salvia health goth, bicycle rights post-ironic poutine four loko umami venmo lomo iPhone narwhal blog. Try-hard waistcoat semiotics artisan, helvetica mustache stumptown fingerstache health goth wolf art party. Humblebrag asymmetrical skateboard celiac."
     }
 ]
 

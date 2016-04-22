@@ -1,0 +1,10 @@
+.thumbnail-img img {
+  width: 100%;
+}
+
+.thumbnail-style {
+  padding: 0;
+}
+.thumbnail-style .caption-style {
+  padding: 15px;
+}
