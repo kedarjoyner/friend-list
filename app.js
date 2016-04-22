@@ -1,20 +1,15 @@
 var express       = require("express"),
     app           = express(),
     bodyParser    = require("body-parser"),
-    mongoose      = require("mongoose");
+    mongoose      = require("mongoose"),
+    Campground    = require("./models/campground"),
+    seedDB        = require("./seeds");
+
+//remove all campgrounds when page loads
+seedDB();
 
 // create yelpcamp database in mongodb
 mongoose.connect("mongodb://localhost/yelp_camp");
-
-// SCHEMA SETUP
-var campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String
-});
-
-// COMPILE SCHEMA INTO MODEL
-var Campground = mongoose.model("Campground", campgroundSchema);
 
 // Campground.create(
 //     {

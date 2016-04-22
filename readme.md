@@ -8,6 +8,8 @@
   * Image
 
 #Restful Routes
+  * REST - a pattern for defining mapping between HTTP routes and CRUD
+  * CRUD - create, read, update, destroy
 
 name      url           verb        desc.
 ===============================================================
