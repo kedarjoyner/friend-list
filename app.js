@@ -9,6 +9,7 @@ var express       = require("express"),
     User          = require("./models/user"),
     seedDB        = require("./seeds")
 
+
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -146,11 +147,33 @@ app.post("/register", function(req, res){
       console.log(err);
       return res.render("register");
     }
+    // log user in
     passport.authenticate("local")(req, res, function(){
       res.redirect("/campgrounds");
     });
   });
 });
+
+// ========================
+// LOGIN FORM
+// ========================
+
+// show login form
+app.get("/login", function(req, res){
+  res.render("login");
+});
+
+//handling login logic with middleware
+//app.post("/login", middleware, callback)
+// will call the authenticate method, which was defined up above
+// will authenticate the username and password with db
+app.post("/login", passport.authenticate("local",
+    {
+        successRedirect: "/campgrounds",
+        failureRedirect: "/login"
+    }), function(req, res){
+});
+
 
 app.listen(3000, function(){
    console.log("SERVER HAS STARTED!");
