@@ -41,9 +41,11 @@ app.use(function(req, res, next){
   next();
 });
 
-app.use(indexRoutes);
-app.use(campgroundRoutes);
-app.use(commentRoutes);
+//all start with slash. Don't have to physically hange anything in index - doing this to follow structure of others below
+app.use("/", indexRoutes);
+//appends /campgrounds in front of our campgrounds routes
+app.use("/campgrounds", campgroundRoutes);
+app.use("/campgrounds/:id/comments", commentRoutes);
 
 
 app.listen(3000, function(){

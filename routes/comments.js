@@ -1,5 +1,7 @@
 var express = require("express");
-var router  = express.Router();
+//allows routes to access :id in comment routes
+//merges params from campground and comments together
+var router  = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 
@@ -9,7 +11,7 @@ var Comment = require("../models/comment");
 
 //a comment is dependent on a campgrounds particular id
 // when user makes request to add comment and they aren't logged in, will not be able to see comment form
-router.get("/campgrounds/:id/comments/new", isLoggedin, function(req, res){
+router.get("/new", isLoggedin, function(req, res){
   //find campground by id
   Campground.findById(req.params.id, function(err, campground){
     if(err){
@@ -22,7 +24,7 @@ router.get("/campgrounds/:id/comments/new", isLoggedin, function(req, res){
 
 //a comment is dependent on a campgrounds particular id
 // isLoggedin check if logged in before adding comment
-router.post("/campgrounds/:id/comments", isLoggedin, function(req, res){
+router.post("/", isLoggedin, function(req, res){
    //lookup correct campground using ID
    Campground.findById(req.params.id, function(err, campground){
        if(err){
