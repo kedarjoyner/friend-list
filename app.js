@@ -30,12 +30,21 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+// middleware that adds req.user to every route
+app.use(function(req, res, next){
+  //pass currentUser to every template
+  //locals allows var to be accessed inside of template
+  res.locals.currentUser = req.user;
+  next();
+});
+
 app.get("/", function(req, res){
     res.render("landing");
 });
 
 //INDEX - show all campgrounds
 app.get("/campgrounds", function(req, res){
+  // contains all the infomration about the user
     // Get all campgrounds from DB
     Campground.find({}, function(err, allCampgrounds){
        if(err){
@@ -91,7 +100,8 @@ app.get("/campgrounds/:id", function(req, res){
 // ==================
 
 //a comment is dependent on a campgrounds particular id
-app.get("/campgrounds/:id/comments/new", function(req, res){
+// when user makes request to add comment and they aren't logged in, will not be able to see comment form
+app.get("/campgrounds/:id/comments/new", isLoggedin, function(req, res){
   //find campground by id
   Campground.findById(req.params.id, function(err, campground){
     if(err){
@@ -103,7 +113,8 @@ app.get("/campgrounds/:id/comments/new", function(req, res){
 });
 
 //a comment is dependent on a campgrounds particular id
-app.post("/campgrounds/:id/comments", function(req, res){
+// isLoggedin check if logged in before adding comment
+app.post("/campgrounds/:id/comments", isLoggedin, function(req, res){
    //lookup correct campground using ID
    Campground.findById(req.params.id, function(err, campground){
        if(err){
@@ -174,7 +185,25 @@ app.post("/login", passport.authenticate("local",
     }), function(req, res){
 });
 
+// ========================
+// LOGOUT ROUTE
+// ========================
+
+app.get("/logout", function(req, res){
+  req.logout();
+  res.redirect("/campgrounds");
+});
 
 app.listen(3000, function(){
    console.log("SERVER HAS STARTED!");
 });
+
+// Middleware for isLoggedin
+// If we want a user to be signed in to access a particular page
+// then put this on whatever route necessary
+function isLoggedin(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  }
+  res.redirect("/login");
+}
