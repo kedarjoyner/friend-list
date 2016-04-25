@@ -61,19 +61,14 @@ router.get("/:id", function(req, res){
 });
 
 //EDIT CAMPGROUND ROUTE
-router.get("/:id/edit", function(req, res){
+router.get("/:id/edit", checkOwnership, function(req, res){
   Campground.findById(req.params.id, function(err, foundCampground){
-    if(err){
-      res.redirect("/campgrounds");
-    } else {
-      //foundCampground is passed in under the name of campground
         res.render("campgrounds/edit", {campground: foundCampground});
-    }
   });
 });
 
 //UPDATE CAMPGROUND ROUTE
-router.put("/:id", function(req, res){
+router.put("/:id", checkOwnership, function(req, res){
   //find and update the correct campground
   // req.body.campground contains name, image, descrip by default
   Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
@@ -86,8 +81,38 @@ router.put("/:id", function(req, res){
   //redirect somewhere
 });
 
+// DESTROY CAMPGROUND ROUTE
+router.delete("/:id", checkOwnership, function(req, res){
+  Campground.findByIdAndRemove(req.params.id, function(err){
+    if(err){
+      res.redirect("/campgrounds");
+    } else {
+      res.redirect("/campgrounds");
+    }
+  });
+});
 
 
+//MIDDLEWARE - Authorization to ensure users are logged in and can only edit their own posts.
+function checkOwnership(req, res, next) {
+  if(req.isAuthenticated()){
+    Campground.findById(req.params.id, function(err, foundCampground){
+        if(err){
+          res.redirect("back");
+        } else {
+          //does user own the campground?
+          //foundCampground is passed in under the name of campground
+          if(foundCampground.author.id.equals(req.user._id)){
+            next();
+          } else {
+            res.redirect("back");
+          }
+        }
+      });
+  } else {
+    res.redirect("back");
+  }
+}
 
 //MIDDLEWARE
 // Middleware for isLoggedin
