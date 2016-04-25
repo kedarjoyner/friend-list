@@ -5,12 +5,9 @@ var router  = express.Router({mergeParams: true});
 var Campground = require("../models/campground");
 var Comment = require("../models/comment");
 
-// ==================
-// COMMENT ROUTES
-// ==================
-
-//a comment is dependent on a campgrounds particular id
-// when user makes request to add comment and they aren't logged in, will not be able to see comment form
+//COMMENTS NEW
+//A comment is dependent on a campgrounds particular id
+// When user makes request to add comment and they aren't logged in, will not be able to see comment form
 router.get("/new", isLoggedin, function(req, res){
   //find campground by id
   Campground.findById(req.params.id, function(err, campground){
@@ -22,6 +19,7 @@ router.get("/new", isLoggedin, function(req, res){
   });
 });
 
+//COMMENTS CREATE
 //a comment is dependent on a campgrounds particular id
 // isLoggedin check if logged in before adding comment
 router.post("/", isLoggedin, function(req, res){
@@ -36,10 +34,15 @@ router.post("/", isLoggedin, function(req, res){
            if(err){
                console.log(err);
            } else {
+              //add username and id to comment
+              comment.author.id = req.user._id;
+              comment.author.username = req.user.username;
+              comment.save(); // save to db
               // push campground into comments array
                campground.comments.push(comment);
-               campground.save();
-               res.redirect('/campgrounds/' + campground._id);
+               campground.save(); // save to db
+               console.log(comment)
+;               res.redirect('/campgrounds/' + campground._id);
            }
         });
        }
@@ -49,6 +52,7 @@ router.post("/", isLoggedin, function(req, res){
    //redirect campground show page
 });
 
+//MIDDLEWARE
 // Middleware for isLoggedin
 // If we want a user to be signed in to access a particular page
 // then put this on whatever route necessary

@@ -3,6 +3,8 @@ var router  = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
 
+
+//ROOT ROUTE
 router.get("/", function(req, res){
     res.render("landing");
 });
@@ -16,7 +18,8 @@ router.get("/", function(req, res){
 router.get("/register", function(req, res){
   res.render("register");
 });
-//post route for /register
+
+//handles registration logic
 router.post("/register", function(req, res){
   //method we can use on User via passport-local-mongoose
   //pass in password as second argument
@@ -34,16 +37,12 @@ router.post("/register", function(req, res){
   });
 });
 
-// ========================
-// LOGIN FORM
-// ========================
-
 // show login form
 router.get("/login", function(req, res){
   res.render("login");
 });
 
-//handling login logic with middleware
+//handling login  with middleware
 //app.post("/login", middleware, callback)
 // will call the authenticate method, which was defined up above
 // will authenticate the username and password with db
@@ -54,10 +53,7 @@ router.post("/login", passport.authenticate("local",
     }), function(req, res){
 });
 
-// ========================
-// LOGOUT ROUTE
-// ========================
-
+//logout route
 router.get("/logout", function(req, res){
   req.logout();
   res.redirect("/campgrounds");
