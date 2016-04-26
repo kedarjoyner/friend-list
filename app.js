@@ -19,8 +19,10 @@ var commentRoutes     = require("./routes/comments"),
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8080;
-mongoose.connect("mongodb://kjoyner:StephenistheBest14@ds021771.mlab.com:21771/yelpcampdatabase");
-// mongoose.connect("mongodb://localhost/yelp_camp");
+
+// mongoose.connect("mongodb://kjoyner:StephenistheBest14@ds021771.mlab.com:21771/yelpcampdatabase");
+console.log(process.env.DATABASEURL);
+mongoose.connect("mongodb://localhost/yelp_camp");
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
