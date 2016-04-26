@@ -2,6 +2,9 @@ var express = require("express");
 var router  = express.Router();
 var Campground = require("../models/campground");
 
+//automatically requires index.js because of index name
+var middleware = require("../middleware");
+
 //INDEX - show all campgrounds
 //why is this okay for it to be just /?
 router.get("/", function(req, res){
@@ -17,7 +20,7 @@ router.get("/", function(req, res){
 });
 
 //CREATE - add new campground to DB
-router.post("/", isLoggedin, function(req, res){
+router.post("/", middleware.isLoggedin, function(req, res){
     // get data from form and add to campgrounds array
     var name = req.body.name;
     var image = req.body.image;
@@ -40,7 +43,7 @@ router.post("/", isLoggedin, function(req, res){
 });
 
 //NEW - show form to create new campground
-router.get("/new", isLoggedin, function(req, res){
+router.get("/new", middleware.isLoggedin, function(req, res){
    res.render("campgrounds/new");
 });
 
@@ -61,14 +64,14 @@ router.get("/:id", function(req, res){
 });
 
 //EDIT CAMPGROUND ROUTE
-router.get("/:id/edit", checkCampgroundOwnership, function(req, res){
+router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req, res){
   Campground.findById(req.params.id, function(err, foundCampground){
         res.render("campgrounds/edit", {campground: foundCampground});
   });
 });
 
 //UPDATE CAMPGROUND ROUTE
-router.put("/:id", checkCampgroundOwnership, function(req, res){
+router.put("/:id", middleware.checkCampgroundOwnership, function(req, res){
   //find and update the correct campground
   // req.body.campground contains name, image, descrip by default
   Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
@@ -82,7 +85,7 @@ router.put("/:id", checkCampgroundOwnership, function(req, res){
 });
 
 // DESTROY CAMPGROUND ROUTE
-router.delete("/:id", checkCampgroundOwnership, function(req, res){
+router.delete("/:id", middleware.checkCampgroundOwnership, function(req, res){
   Campground.findByIdAndRemove(req.params.id, function(err){
     if(err){
       res.redirect("/campgrounds");
@@ -93,36 +96,5 @@ router.delete("/:id", checkCampgroundOwnership, function(req, res){
 });
 
 
-//MIDDLEWARE - Authorization to ensure users are logged in and can only edit their own posts.
-function checkCampgroundOwnership(req, res, next) {
-  if(req.isAuthenticated()){
-    Campground.findById(req.params.id, function(err, foundCampground){
-        if(err){
-          res.redirect("back");
-        } else {
-          //does user own the campground?
-          //foundCampground is passed in under the name of campground
-          if(foundCampground.author.id.equals(req.user._id)){
-            next();
-          } else {
-            res.redirect("back");
-          }
-        }
-      });
-  } else {
-    res.redirect("back");
-  }
-}
-
-//MIDDLEWARE
-// Middleware for isLoggedin
-// If we want a user to be signed in to access a particular page
-// then put this on whatever route necessary
-function isLoggedin(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect("/login");
-}
 
 module.exports = router;
