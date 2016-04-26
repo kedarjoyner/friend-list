@@ -1,20 +1,29 @@
+@import "typography";
+@import "carousel";
+
+
+.jumbotron-container, .campground-container {
+  margin-top: 50px;
+}
+
+
+.navbar-main {
+  margin-bottom: 0;
+}
+
 .thumbnail-img img {
   width: 100%;
 }
 
 .thumbnail-style {
   padding: 0;
-  .caption-style {
+  .caption-style  {
     padding: 15px;
   }
 }
 
 #delete-form{
   display: inline;
-}
-
-h1 {
-  margin-bottom: .8em;
 }
 
 .tent-icon {

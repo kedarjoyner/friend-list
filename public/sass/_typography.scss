@@ -1,0 +1,39 @@
+$light: 300;
+$normal: 400;
+$bold: 600;
+
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: 'Raleway', Helvetica, Arial, sans-serif;
+  font-size: 1.6rem;
+  font-weight: $light;
+  color: #161616;
+}
+
+h1 {
+  font-size: 2.4rem;
+  font-weight: $bold;
+}
+h2 {
+  font-size: 2.0rem;
+  font-weight: $bold;
+}
+h3 {
+  font-size: 1.5rem;
+  font-weight: $bold;
+}
+
+.sub-header {
+  font-size: 2.2rem;
+}
+
+a {
+  font-weight: $bold;
+  &:hover {
+    font-weight: $bold;
+  }
+}
