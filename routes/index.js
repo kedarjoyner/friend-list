@@ -28,10 +28,13 @@ router.post("/register", function(req, res){
   User.register(newUser, req.body.password, function(err, user){
     if(err){
       console.log(err);
+      req.flash("error", err.message);
+      console.log(err);
       return res.render("register");
     }
     // log user in
     passport.authenticate("local")(req, res, function(){
+      req.flash("success", "Welcome to YelpCamp " + user.username);
       res.redirect("/campgrounds");
     });
   });
@@ -39,6 +42,7 @@ router.post("/register", function(req, res){
 
 // show login form
 router.get("/login", function(req, res){
+  //request flash mssg with "error" key
   res.render("login");
 });
 
@@ -56,17 +60,9 @@ router.post("/login", passport.authenticate("local",
 //logout route
 router.get("/logout", function(req, res){
   req.logout();
+  req.flash("success", "Logged you out!");
   res.redirect("/campgrounds");
 });
 
-// Middleware for isLoggedin
-// If we want a user to be signed in to access a particular page
-// then put this on whatever route necessary
-function isLoggedin(req, res, next){
-  if(req.isAuthenticated()){
-    return next();
-  }
-  res.redirect("/login");
-}
 
 module.exports = router;

@@ -29,6 +29,7 @@ router.post("/", middleware.isLoggedin, function(req, res){
    //lookup correct campground using ID
    Campground.findById(req.params.id, function(err, campground){
        if(err){
+         req.flash("error", "Sorry, something went wrong")
            console.log(err);
            res.redirect("/campgrounds");
        } else {
@@ -44,7 +45,8 @@ router.post("/", middleware.isLoggedin, function(req, res){
               // push campground into comments array
                campground.comments.push(comment);
                campground.save(); // save to db
-               console.log(comment)
+               console.log(comment);
+               req.flash("success", "Successfully created comment");
 ;               res.redirect('/campgrounds/' + campground._id);
            }
         });
@@ -84,6 +86,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, function(req, re
     if (err){
       res.redirect("back");
     } else {
+      req.flash("success", "Comment deleted!");
       res.redirect("/campgrounds/" + req.params.id);
     }
   });

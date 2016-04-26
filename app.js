@@ -2,6 +2,7 @@ var express         = require("express"),
     app             = express(),
     bodyParser      = require("body-parser"),
     mongoose        = require("mongoose"),
+    flash           = require("connect-flash"),
     passport        = require("passport"),
     LocalStrategy   = require("passport-local"),
     methodOverride  = require("method-override"),
@@ -21,6 +22,7 @@ app.set("view engine", "ejs");
 //dirname is the directly where the file lives in
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride("_method"));
+app.use(flash());
 // seedDB(); // seed the database
 
 
@@ -42,6 +44,8 @@ app.use(function(req, res, next){
   //pass currentUser to every template
   //locals allows var to be accessed inside of template
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 });
 
