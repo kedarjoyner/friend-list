@@ -1,11 +1,14 @@
 <% include ./partials/header %>
 
-<h1>Register for YelpCamp</h1>
+<div class="container">
 
-<form action="/register" method="POST">
-  <input type="text" name="username" placeholder="username">
-  <input type="password" name="password" placeholder="password">
-  <button>Sign Up</button>
-</form>
+  <h1 class="text-center">Register for YelpCamp</h1>
+
+  <form class="text-center" action="/register" method="POST">
+    <input type="text" name="username" placeholder="username">
+    <input type="password" name="password" placeholder="password">
+    <button>Sign Up</button>
+  </form>
+</div>
 
 <% include ./partials/footer %>
