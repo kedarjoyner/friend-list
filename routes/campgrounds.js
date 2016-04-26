@@ -61,14 +61,14 @@ router.get("/:id", function(req, res){
 });
 
 //EDIT CAMPGROUND ROUTE
-router.get("/:id/edit", checkOwnership, function(req, res){
+router.get("/:id/edit", checkCampgroundOwnership, function(req, res){
   Campground.findById(req.params.id, function(err, foundCampground){
         res.render("campgrounds/edit", {campground: foundCampground});
   });
 });
 
 //UPDATE CAMPGROUND ROUTE
-router.put("/:id", checkOwnership, function(req, res){
+router.put("/:id", checkCampgroundOwnership, function(req, res){
   //find and update the correct campground
   // req.body.campground contains name, image, descrip by default
   Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
@@ -82,7 +82,7 @@ router.put("/:id", checkOwnership, function(req, res){
 });
 
 // DESTROY CAMPGROUND ROUTE
-router.delete("/:id", checkOwnership, function(req, res){
+router.delete("/:id", checkCampgroundOwnership, function(req, res){
   Campground.findByIdAndRemove(req.params.id, function(err){
     if(err){
       res.redirect("/campgrounds");
@@ -94,7 +94,7 @@ router.delete("/:id", checkOwnership, function(req, res){
 
 
 //MIDDLEWARE - Authorization to ensure users are logged in and can only edit their own posts.
-function checkOwnership(req, res, next) {
+function checkCampgroundOwnership(req, res, next) {
   if(req.isAuthenticated()){
     Campground.findById(req.params.id, function(err, foundCampground){
         if(err){
